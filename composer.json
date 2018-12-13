@@ -1,0 +1,25 @@
+{
+    "name": "millancore/pheo4j",
+    "description": "Neo4J PHP lightwight Client",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Juan Millan",
+            "email": "juanes14569@hotmail.com"
+        },
+        {
+            "name": "Lehvui Gonzalez",
+            "email": "serlen159@hotmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "nategood/httpful": "^0.2.20"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pheo4j\\": "src/"
+        }
+    }
+}
