@@ -27,7 +27,11 @@ class Cypher
      return $this;
   }
 
-  
+  public function create($params)
+  {
+    // Contenido de la funcion
+  }
+
   public function return($params)
   {
     \Pheo4j\Command\Get::set($this, $params);
