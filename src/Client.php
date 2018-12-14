@@ -6,40 +6,53 @@ use Httpful\Request;
 
 class Client
 {
-    private $request;
-    private $dataBaseUrl;
+    private $baseUrl;
+    
+    // Conection
+    private $host;
+    private $port;
 
-    public function __construct(String $host, Int $port)
+    // Auth
+    private $username;
+    private $password;
+
+    //Body payload
+    private $body;
+
+    public function __construct(String $host = 'localhost', Int $port = 7474)
     {
-        $this->dataBaseUrl = '/db/data/transaction/commit';
-        $this->request = Request::post("$host:$port".$this->dataBaseUrl)                  // Build a PUT request...
-        ->sendsJson();
+        $this->baseUrl = '/db/data/transaction/commit';
+        $this->host = $host;
+        $this->port = $port;
     }
 
 
     public function setAuth($username, $password)
     {
-        $this->request->authenticateWith($username, $password);
-    }
-
-    public static function createFrom(String $host, Int $port)
-    {
-        return new static($host, $port);
+        $this->username = $username;
+        $this->password = $password;
     }
 
     public function Cypher($cypher)
     {
-        $this->request->body('{
+        $this->body = '{
             "statements": [
                 {
                     "statement": "'.$cypher.'"
                 }
             ]
-        }');
+        }';
     }
 
     public function execute()
     {
-        return new Response($this->request->send());
+        $neo4jResponse = Request::post(
+                    $this->host.':'.$this->port.$this->baseUrl
+                )->sendsJson()                              
+                 ->authenticateWith($this->username, $this->password)
+                 ->body($this->body)
+                 ->send();
+
+        return new Response($neo4jResponse);
     }
 }
