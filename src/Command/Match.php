@@ -6,6 +6,6 @@ class Match
 {
    public static function set($cypher, String $match)
    {
-      $query = $cypher->addQuery('MATCH '.$match);
+      $query = $cypher->add('MATCH '.$match);
    }
 }

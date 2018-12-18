@@ -35,22 +35,20 @@ class Client
 
     public function Cypher($cypher)
     {
-        $this->body = '{
-            "statements": [
-                {
-                    "statement": "'.$cypher.'"
-                }
-            ]
-        }';
+        $this->body = array(
+            'statements' => [
+                ['statement' => $cypher]
+            ],
+        );
     }
 
     public function execute()
     {
         $neo4jResponse = Request::post(
-                    $this->host.':'.$this->port.$this->baseUrl
-                )->sendsJson()                              
+                $this->host.':'.$this->port.$this->baseUrl
+                )->sendsJson()
                  ->authenticateWith($this->username, $this->password)
-                 ->body($this->body)
+                 ->body(json_encode($this->body))
                  ->send();
 
         return new Response($neo4jResponse);
